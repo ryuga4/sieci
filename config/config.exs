@@ -6,11 +6,10 @@ use Mix.Config
 config :sieci, :ecto_repos, [Sieci.Repo]
 
 config :sieci, Sieci.Repo,
-  database: "d8nfvoicksijpn",
-  username: "ajntjnocpyutxz",
-  password: "7b7f205328ea13337344108d9ea33e75fa507ee86dc09164d51e6151263acbe8",
-  hostname: "ec2-50-17-203-51.compute-1.amazonaws.com",
-  port: 5432
+  database: "sieci_db",
+  username: "jankun",
+  password: "pies123",
+  hostname: "localhost"
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
