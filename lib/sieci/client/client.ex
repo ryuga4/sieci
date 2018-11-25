@@ -3,7 +3,7 @@ defmodule Sieci.Client.Client do
 
 
   def client do
-    {:ok, sock} = :gen_tcp.connect('gentle-crag-95328.herokuapp.com', 3000, [:binary, packet: 0, active: false])
+    {:ok, sock} = :gen_tcp.connect('localhost', 3000, [:binary, packet: 0, active: false])
 
     receive_files(sock)
     handle_client(sock)

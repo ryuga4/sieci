@@ -13,6 +13,9 @@ defmodule Sieci.Server.Server do
       worker(Sieci.Server.FileReceiver, [name: FileReceiver]),
       worker(Sieci.Server.FileEditer, [name: FileEditer])
     ]
+	
+    IO.puts "Start"
+	
     Supervisor.init(children, strategy: :one_for_one)
   end
 

@@ -7,8 +7,8 @@ config :sieci, :ecto_repos, [Sieci.Repo]
 
 config :sieci, Sieci.Repo,
   database: "sieci_db",
-  username: "jankun",
-  password: "pies123",
+  username: "postgres",
+  password: "mleko02",
   hostname: "localhost"
 
 # This configuration is loaded before any dependency and is restricted

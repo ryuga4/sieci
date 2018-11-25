@@ -17,7 +17,7 @@ defmodule Sieci.Server.FileEditer do
       {:error, :eaddrinuse} ->
         IO.puts "Addres in use"
         :timer.sleep(1000)
-        System.cmd("fuser" , ["-k", "3001/tcp"])
+        #System.cmd("fuser" , ["-k", "3001/tcp"])
         start_link(x)
     end
 

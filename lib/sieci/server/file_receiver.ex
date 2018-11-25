@@ -22,7 +22,7 @@ defmodule Sieci.Server.FileReceiver do
       {:error, :eaddrinuse} ->
         IO.puts "Addres in use"
         :timer.sleep(1000)
-        System.cmd("fuser" , ["-k", "3000/tcp"])
+        #System.cmd("fuser" , ["-k", "3000/tcp"])
         init(nil)
     end
 
@@ -51,7 +51,7 @@ defmodule Sieci.Server.FileReceiver do
     end
     length = Enum.count mapped
 
-    to_send = <<length::size(8)>> <> Enum.reduce(mapped, fn (a,acc) -> acc<>a end)
+    to_send = <<length::size(8)>> <> Enum.reduce(mapped, <<>>, fn (a,acc) -> acc<>a end)
     IO.puts "Server: "
     IO.inspect mapped
     :gen_tcp.send(sock, to_send)
