@@ -7,6 +7,8 @@ defmodule Sieci.Application do
   use Application
 
   def start(_type, _args) do
+
+    IO.puts "Śmiga"
     # List all child processes to be supervised
     children = [
       # Starts a worker by calling: Sieci.Worker.start_link(arg)

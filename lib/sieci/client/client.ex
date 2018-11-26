@@ -1,7 +1,6 @@
 defmodule Sieci.Client.Client do
   @moduledoc false
 
-
   def client do
     {:ok, sock} = :gen_tcp.connect('localhost', 3000, [:binary, packet: 0, active: false])
 
@@ -9,24 +8,15 @@ defmodule Sieci.Client.Client do
     handle_client(sock)
   end
 
-
-
-
-
-
-
-
   def receive_files(sock) do
     files = recv_length(sock, [])
-
-    IO.inspect(files)
+    #IO.inspect(files)
   end
-
 
   def recv_length(sock,
         <<length::size(8),
           rest::binary>>) do
-    recv_files(length, sock,rest, [])
+    recv_files(length, sock, rest, [])
   end
 
   def recv_length(sock, bs) do
@@ -35,7 +25,7 @@ defmodule Sieci.Client.Client do
    #     IO.inspect b
         recv_length(sock, :erlang.list_to_binary([bs,b]))
       {:error, closed} ->
-        IO.inspect closed
+        #IO.inspect closed
         {:closed, :erlang.list_to_binary(bs)}
     end
   end
@@ -49,7 +39,6 @@ defmodule Sieci.Client.Client do
      >>, files) do
       recv_files(length - 1 ,sock, rest, [{t, name} | files])
   end
-
 
   def recv_files(length, sock, bs, files) do
     case :gen_tcp.recv(sock, 0) do
