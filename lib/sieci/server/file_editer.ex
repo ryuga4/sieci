@@ -25,6 +25,7 @@ defmodule Sieci.Server.FileEditer do
 
   def queue(lsock) do
     {:ok, sock} = :gen_tcp.accept(lsock)
+    IO.puts "Editer connected"
     {name, rest} = recv_name(sock, [])
     Agent.update(__MODULE__, fn state -> add_sock(sock,name,state) end)
     content = Agent.get(__MODULE__, fn state -> Map.get(state,name).content end)
@@ -32,7 +33,7 @@ defmodule Sieci.Server.FileEditer do
 
     cs = byte_size content
 
-    :gen_tcp.send(sock, <<cs::size(8)>> <> content)
+    :gen_tcp.send(sock, <<cs::size(32)>> <> content)
     Task.async(fn -> recv_changes(sock, []) end)
     queue(lsock)
   end
@@ -57,8 +58,7 @@ defmodule Sieci.Server.FileEditer do
       {:ok, b} ->
         recv_changes(sock, :erlang.list_to_binary([bs,b]))
       {:error, closed} ->
-        IO.inspect closed
-        {:closed, :erlang.list_to_binary(bs)}
+        {:closed, bs}
     end
   end
 
@@ -77,30 +77,46 @@ defmodule Sieci.Server.FileEditer do
 
 
   def add_sock(sock, name, state) do
-    IO.puts "ADD"
+    #IO.puts "ADD"
     c = hd(Sieci.Db.Query.get_content(name))
     Map.update(state, name, %{socks: [sock], content: c}, fn x -> %{x | socks: [sock|x.socks]} end)
   end
 
 
   def change_content(state, name, content) do
-    x = state
-    |> Map.get name
-    Enum.each(x.socks, fn i -> Task.async(fn -> send_change(i, content) end) end)
+
+    Map.update(state, name, %{socks: [], content: content},
+      fn %{socks: socks} ->
+        
+        socks2 = Enum.reduce(socks, [], fn s, acc ->
+         
+          case send_change(s,content) do
+            :ok -> [s|acc]
+            _ -> acc
+          end
+        end)
+        %{socks: socks2, content: content}
+
+      end
+    )
 
 
-    Map.update(state, name,
-    %{socks: [], content: content},
-    fn x -> %{x | content: content} end)
 
   end
 
   def send_change(sock, content) do
+    #IO.puts "Sending change"
+    
+
     cs = byte_size content
-    :gen_tcp.send(sock, <<cs::size(8)>> <> content)
+    toSend = <<cs::size(32)>> <> content
+
+    :gen_tcp.send(sock, toSend)
   end
 
 
-
+  def handle_info(a,b) do
+    
+  end
 
 end

@@ -30,7 +30,7 @@ defmodule Sieci.Server.FileReceiver do
 
   def queue(lsock) do
     {:ok, sock} = :gen_tcp.accept(lsock)
-    IO.puts "Server: Connected"
+    IO.puts "Receiver connected"
     send_files(sock)
     Task.async(fn -> handle(sock) end)
     queue(lsock)
@@ -52,8 +52,6 @@ defmodule Sieci.Server.FileReceiver do
     length = Enum.count mapped
 
     to_send = <<length::size(8)>> <> Enum.reduce(mapped, <<>>, fn (a,acc) -> acc<>a end)
-    IO.puts "Server: "
-    IO.inspect mapped
     :gen_tcp.send(sock, to_send)
   end
 
@@ -80,7 +78,7 @@ defmodule Sieci.Server.FileReceiver do
 
         handle(sock)
       {:closed, x} ->
-        IO.puts "Server: Closed"
+        nil
 
     end
   end

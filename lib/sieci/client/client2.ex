@@ -24,14 +24,14 @@ defmodule Sieci.Client.Client2 do
 
   def loop(sock, bs) do
     {content, rest} = recv_content(sock, bs)
-    IO.inspect sock
+    IO.puts "Client:"
     IO.puts content
     loop(sock, rest)
   end
 
   def recv_content(sock,
-        <<ns::size(8),
-          content::binary-size(ns),
+        <<cs::size(32),
+          content::binary-size(cs),
           rest :: binary>>) do
     {content, rest}
   end
