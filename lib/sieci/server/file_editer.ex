@@ -85,6 +85,10 @@ defmodule Sieci.Server.FileEditer do
 
   def change_content(state, name, content) do
 
+    IO.puts "ZMIANA WJAAZD"
+    IO.puts "Plik #{name}"
+    IO.puts content
+    
     Map.update(state, name, %{socks: [], content: content},
       fn %{socks: socks} ->
         
