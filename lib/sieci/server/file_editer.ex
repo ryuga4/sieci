@@ -87,8 +87,8 @@ defmodule Sieci.Server.FileEditer do
 
     IO.puts "ZMIANA WJAAZD"
     IO.puts "Plik #{name}"
-    IO.puts content
-    
+    IO.inspect content
+
     Map.update(state, name, %{socks: [], content: content},
       fn %{socks: socks} ->
         
