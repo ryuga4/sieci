@@ -96,7 +96,7 @@ defmodule Sieci.Server.FileReceiver do
   def recv(sock, bs) do
     case :gen_tcp.recv(sock, 0) do
       {:ok, b} ->
-        IO.inspect b
+        
         recv(sock, :erlang.list_to_binary([bs,b]))
       {:error, closed} -> {:closed, :erlang.list_to_binary(bs)}
     end
