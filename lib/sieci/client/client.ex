@@ -51,7 +51,6 @@ defmodule Sieci.Client.Client do
 
 
 
-
   def handle_client(sock) do
     path = IO.gets "path: "
     name = String.trim(IO.gets "name: ")
