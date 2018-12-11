@@ -11,7 +11,8 @@ defmodule Sieci.Server.Server do
   def init(_) do
     children = [
       worker(Sieci.Server.FileReceiver, [name: FileReceiver]),
-      worker(Sieci.Server.FileEditer, [name: FileEditer])
+      worker(Sieci.Server.FileEditer, [name: FileEditer]),
+      worker(Sieci.Server.FileSaver, [name: FileSaver])
     ]
 	
     IO.puts "Start"

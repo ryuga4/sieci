@@ -7,24 +7,38 @@ defmodule Sieci.Db.Query do
 
 
   def get_all() do
-    query = from x in BinaryFile,
-            select: x
+    Path.wildcard("resources/*")
+    |> Enum.map(&get_file/1)
 
-    Repo.all(query)
   end
 
   def get_descriptions() do
-    query = from x in BinaryFile,
-            select: {x.filename, x.type}
-    Repo.all(query)
+    get_all()
+    |> Enum.map(fn x -> {x.filename, x.type} end)
   end
 
 
   def get_content(name) do
-    query = from x in BinaryFile,
-              where: x.filename == ^name,
-              select: x.content
-
-    Repo.all(query)
+    Path.wildcard("resources/"<>name<>"*")
+    |> hd
+    |> File.read!
   end
+
+
+
+  def save_file(%{filename: name, type: type, content: content}) do
+    File.write!("resources/"<>name<>type, content)
+  end
+
+
+
+  def get_file(path) do
+    [_, name] = Regex.run ~r/(.*)\..*/, Path.basename(path)
+    type = Path.extname(path)
+    content = File.read!(path)
+    %{filename: name, type: type, content: content}
+  end
+
+
+  defp get_description()
 end
