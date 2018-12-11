@@ -1,8 +1,5 @@
 defmodule Sieci.Db.Query do
   @moduledoc false
-  import Ecto.Query, only: [from: 2]
-  alias Sieci.Repo
-  alias Sieci.Schemas.BinaryFile
 
 
 
@@ -40,5 +37,5 @@ defmodule Sieci.Db.Query do
   end
 
 
-  defp get_description()
+  
 end
