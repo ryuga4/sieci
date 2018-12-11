@@ -18,7 +18,7 @@ defmodule Sieci.Server.FileReceiver do
     case :gen_tcp.listen(3000, [:binary, packet: 0, active: false, reuseaddr: true]) do
       {:ok, lsock} ->
         Task.async(fn -> queue(lsock) end)
-        {:ok, []}
+        {:ok, nil}
       {:error, :eaddrinuse} ->
         IO.puts "Addres in use"
         :timer.sleep(1000)
@@ -59,7 +59,7 @@ defmodule Sieci.Server.FileReceiver do
 
 
   def handle(sock) do
-    case recv(sock,[]) do
+    case recv(sock,<<>>) do
       {:ok,t,name,content,rest} ->
         type = case t do
           1 -> ".txt"
@@ -98,7 +98,7 @@ defmodule Sieci.Server.FileReceiver do
     case :gen_tcp.recv(sock, 0) do
       {:ok, b} ->
         
-        recv(sock, :erlang.list_to_binary([bs,b]))
+        recv(sock, bs<>b)
       {:error, closed} -> {:closed, :erlang.list_to_binary(bs)}
     end
   end

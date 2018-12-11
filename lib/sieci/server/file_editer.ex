@@ -25,7 +25,7 @@ defmodule Sieci.Server.FileEditer do
   def queue(lsock) do
     {:ok, sock} = :gen_tcp.accept(lsock)
     IO.puts "Editer connected"
-    {name, rest} = recv_name(sock, [])
+    {name, rest} = recv_name(sock, <<>>)
     Agent.update(__MODULE__, fn state -> add_sock(sock, name, state) end)
     %{content: content} = Agent.get(__MODULE__, fn state -> Map.get(state, name).file_info end)
 
@@ -33,7 +33,7 @@ defmodule Sieci.Server.FileEditer do
     cs = byte_size content
 
     :gen_tcp.send(sock, <<cs :: size(32)>> <> content)
-    Task.async(fn -> recv_changes(sock, []) end)
+    Task.async(fn -> recv_changes(sock, <<>>) end)
     queue(lsock)
   end
 
@@ -62,7 +62,7 @@ defmodule Sieci.Server.FileEditer do
   def recv_changes(sock, bs) do
     case :gen_tcp.recv(sock, 0) do
       {:ok, b} ->
-        recv_changes(sock, :erlang.list_to_binary([bs, b]))
+        recv_changes(sock, bs<>b)
       {:error, closed} ->
         {:closed, bs}
     end
@@ -76,7 +76,7 @@ defmodule Sieci.Server.FileEditer do
   def recv_name(sock, bs) do
     case :gen_tcp.recv(sock, 0) do
       {:ok, b} ->
-        recv_name(sock, :erlang.list_to_binary([bs, b]))
+        recv_name(sock, bs<>b)
       {:error, closed} -> {:closed, :erlang.list_to_binary(bs)}
     end
   end
