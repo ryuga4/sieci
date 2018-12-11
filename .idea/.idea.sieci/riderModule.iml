@@ -6,20 +6,7 @@
     </facet>
   </component>
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$/../..">
-      <excludeFolder url="file://$MODULE_DIR$/../../_build/dev/lib/bunt" />
-      <excludeFolder url="file://$MODULE_DIR$/../../_build/dev/lib/connection" />
-      <excludeFolder url="file://$MODULE_DIR$/../../_build/dev/lib/credo" />
-      <excludeFolder url="file://$MODULE_DIR$/../../_build/dev/lib/db_connection" />
-      <excludeFolder url="file://$MODULE_DIR$/../../_build/dev/lib/decimal" />
-      <excludeFolder url="file://$MODULE_DIR$/../../_build/dev/lib/dogma" />
-      <excludeFolder url="file://$MODULE_DIR$/../../_build/dev/lib/ecto" />
-      <excludeFolder url="file://$MODULE_DIR$/../../_build/dev/lib/ecto_sql" />
-      <excludeFolder url="file://$MODULE_DIR$/../../_build/dev/lib/jason" />
-      <excludeFolder url="file://$MODULE_DIR$/../../_build/dev/lib/poison" />
-      <excludeFolder url="file://$MODULE_DIR$/../../_build/dev/lib/postgrex" />
-      <excludeFolder url="file://$MODULE_DIR$/../../_build/dev/lib/telemetry" />
-    </content>
+    <content url="file://$MODULE_DIR$/../.." />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Elixir 1.7.4" level="application" />
     <orderEntry type="library" name="ecto_sql" level="project" />
