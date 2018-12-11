@@ -13,7 +13,7 @@ defmodule Sieci.Application do
     children = [
       # Starts a worker by calling: Sieci.Worker.start_link(arg)
       # {Sieci.Worker, arg},
-      Sieci.Repo,
+      #Sieci.Repo,
       Sieci.Server.Server
     ]
 

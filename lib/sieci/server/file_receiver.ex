@@ -42,8 +42,10 @@ defmodule Sieci.Server.FileReceiver do
     files = Sieci.Db.Query.get_descriptions()
     mapped = Enum.map files, fn {filename, type} ->
       type_id = case type do
-        "txt" -> 1
-        "png" -> 2
+        ".txt" -> 1
+        ".png" -> 2
+        ".jpg" -> 3
+        ".bmp" -> 4
       end
 
       name_size = byte_size filename
@@ -60,21 +62,20 @@ defmodule Sieci.Server.FileReceiver do
     case recv(sock,[]) do
       {:ok,t,name,content,rest} ->
         type = case t do
-          1 -> "txt"
-          2 -> "png"
+          1 -> ".txt"
+          2 -> ".png"
+          3 -> ".jpg"
+          4 -> ".bmp"
         end
 
 
-        changeset = BinaryFile.changeset(%BinaryFile{},
+        changeset =
           %{filename: name,
             type: type,
             content: content
-          })
+          }
 
-        case Repo.insert(changeset) do
-          {:ok, record} -> nil
-          {:error, changeset} -> nil
-        end
+        Sieci.Db.Query.save_file(changeset)
 
         handle(sock)
       {:closed, x} ->

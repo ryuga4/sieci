@@ -6,8 +6,8 @@ use Mix.Config
 config :sieci, :ecto_repos, [Sieci.Repo]
 
 config :sieci, Sieci.Repo,
-  database: "default_db",
-  username: "me",
+  database: "sieci_db",
+  username: "postgres",
   password: "mleko02",
   hostname: "localhost"
 # This configuration is loaded before any dependency and is restricted
